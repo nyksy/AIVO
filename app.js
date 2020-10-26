@@ -1,6 +1,6 @@
 const config = require('./utils/config')
 const express = require('express')
-const Discord = require('discord')
+const Discord = require('discord.js')
 const app = express()
 
 const client = new Discord.Client();
