@@ -1,15 +1,21 @@
 const config = require('./utils/config')
 const express = require('express')
+const Discord = require('discord')
 const app = express()
-const Telegraf = require('telegraf')
-const bot = new Telegraf(config.TOKEN)
 
-bot.start((ctx) => ctx.reply('Kvaak.'))
-bot.help((ctx) => ctx.reply('Explain the problem, please. Remember, that I am just a duck.'))
-bot.on('sticker', (ctx) => ctx.reply('👌👌'))
-bot.hears('hello there', (ctx) => ctx.reply('General Kenobi'))
-bot.on('message', (ctx) => ctx.reply('kvaak.'))
-bot.on('audio', (ctx) => ctx.reply('kvaak.'))
-bot.launch()
+const client = new Discord.Client();
+
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+});
+
+client.on('message', msg => {
+  if (msg.content === 'ping') {
+    msg.reply('Pong!');
+  }
+});
+
+client.login(config.TOKEN);
+
 
 module.exports = app
