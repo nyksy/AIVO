@@ -33,7 +33,7 @@ client.on('message', msg => {
 
 5. ${articles[4].title} <${articles[4].link}>
 
-
+uutista :D
 *Kiitos näkemiin*`
     )
   }
