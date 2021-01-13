@@ -1,6 +1,8 @@
 const config = require('./utils/config')
 const express = require('express')
 const Discord = require('discord.js')
+const scraper = require('scraper')
+
 const app = express()
 
 const client = new Discord.Client();
