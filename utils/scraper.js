@@ -30,4 +30,5 @@ function getArticles() {
     })
     return articles
 }
+//Exports
 module.exports = {articles: getArticles() }
