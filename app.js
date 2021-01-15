@@ -17,11 +17,17 @@ cron.schedule('0 15 * * *', () => {
     //Sending the msg to a certain channel based on id
     const channel = client.channels.cache.find(ch => ch.id === config.CH)
 
+    var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1;
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+
+    newdate = day + "/" + month + "/"  + year;
     //If found
     if (channel) {
       const articles = scraper.articles //get articles from scraper.js
       channel.send(
-        `**Aamujysäys ${Date()} by aivo**
+        `**Aamujysäys ${newdate} by aivo**
 
 1. ${articles[0].title} <${articles[0].link}>
 
