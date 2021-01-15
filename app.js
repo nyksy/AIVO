@@ -10,13 +10,14 @@ const app = express()
 const client = new Discord.Client()
 
 //Login & timed message
-cron.schedule('0 15 * * *', () => {
+cron.schedule('0 9 * * *', () => {
   client.login(config.TOKEN).then(() => {
     console.log(`Logged in as ${client.user.tag}`)
 
     //Sending the msg to a certain channel based on id
     const channel = client.channels.cache.find(ch => ch.id === config.CH)
 
+    //Constructing a date
     var dateObj = new Date();
     var month = dateObj.getUTCMonth() + 1;
     var day = dateObj.getUTCDate();
