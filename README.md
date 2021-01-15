@@ -1,6 +1,6 @@
 # AIVO - A discord bot
 
-Scrapes articles currently from the site [Ampparit](https://www.ampparit.com)
+Scrapes articles currently from the site [Ampparit](https://www.ampparit.com).  
 Sends a text message to discord every morning consisting of the headline and link of the 5 most recent articles.
 
 ## Built With
@@ -17,4 +17,4 @@ Sends a text message to discord every morning consisting of the headline and lin
 
 ### TODOs
 
-*AI-mechanism to recognize objects from images sent to the bot.
+* AI-mechanism to recognize objects from images sent to the bot.
