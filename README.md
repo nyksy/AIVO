@@ -14,3 +14,7 @@ Sends a text message to discord every morning consisting of the headline and lin
 ## Work in progress
 
 * Version 0.0.2
+
+### TODOs
+
+*AI-mechanism to recognize objects from images sent to the bot.
