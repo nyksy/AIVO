@@ -7,24 +7,21 @@ const cron = require('node-cron')
 const app = express()
 
 //Discord client
-const client = new Discord.Client();
+const client = new Discord.Client()
 
 //Login & timed message
-cron.schedule('* * * * *', () => {
+cron.schedule('0 15 * * *', () => {
   client.login(config.TOKEN).then(() => {
+    console.log(`Logged in as ${client.user.tag}`)
 
-    client.on('ready', () => {
-      console.log(`Logged in as ${client.user.tag}`)
-      
-      //Sending the msg to a certain channel based on id
-      const channel = client.channels.cache.find(ch => ch.id === config.CH)
-      
-      if (channel) {
-        //get articles from scraper.js
-        var articles = scraper.articles
-        
-        channel.send(
-          `**Aamujysäys ${Date()} by aivo**
+    //Sending the msg to a certain channel based on id
+    const channel = client.channels.cache.find(ch => ch.id === config.CH)
+
+    //If found
+    if (channel) {
+      const articles = scraper.articles //get articles from scraper.js
+      channel.send(
+        `**Aamujysäys ${Date()} by aivo**
 
 1. ${articles[0].title} <${articles[0].link}>
 
@@ -39,13 +36,15 @@ cron.schedule('* * * * *', () => {
 >uutista :D
 
 *Kiitos näkemiin*`
-        )
-        console.log(`MSG: sent at ${Date()}`)
-      } else {
-        console.log('ch not found')
-      }
-    })
+      )
+      console.log(`MSG: sent at ${Date()}`)
+    } else {
+      console.log('CH: not found')
+    }
   })
+}, {
+  scheduled: true,
+  timezone: 'Europe/Helsinki'
 })
 
 /*
