@@ -11,18 +11,44 @@ const client = new Discord.Client();
 
 //Login & timed message
 cron.schedule('* * * * *', () => {
-  client.login(config.TOKEN)
+  client.login(config.TOKEN).then(() => {
 
-  client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}`)
+    client.on('ready', () => {
+      console.log(`Logged in as ${client.user.tag}`)
+      
+      //Sending the msg to a certain channel based on id
+      const channel = client.channels.cache.find(ch => ch.id === config.CH)
+      
+      if (channel) {
+        //get articles from scraper.js
+        var articles = scraper.articles
+        
+        channel.send(
+          `**Aamujysäys ${Date()} by aivo**
+
+1. ${articles[0].title} <${articles[0].link}>
+
+2. ${articles[1].title} <${articles[1].link}>
+
+3. ${articles[2].title} <${articles[2].link}>
+
+4. ${articles[3].title} <${articles[3].link}>
+
+5. ${articles[4].title} <${articles[4].link}>
+
+>uutista :D
+
+*Kiitos näkemiin*`
+        )
+        console.log(`MSG: sent at ${Date()}`)
+      } else {
+        console.log('ch not found')
+      }
+    })
   })
-  var channel = client.channels.cache.find(ch => ch.id === config.CH)
-  if (channel) {
-    channel.send('morgons')
-  }
 })
 
-
+/*
 client.on('message', msg => {
   if (msg.content === 'ping') {
 
@@ -49,5 +75,5 @@ client.on('message', msg => {
     )
   }
 })
-
+*/
 module.exports = app
