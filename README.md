@@ -10,6 +10,7 @@ Sends a text message to discord every morning consisting of the headline and lin
 * Express.js
 * request.js
 * cheerio.js
+* node-cron-js
 
 ## Work in progress
 
