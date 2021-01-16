@@ -1,4 +1,4 @@
-# AIVO - A discord bot
+# aivo/aevot discord bot
 
 Scrapes articles currently from the site [Ampparit](https://www.ampparit.com).  
 Sends a text message to discord every morning consisting of the headline and link of the 5 most recent articles.
@@ -14,7 +14,7 @@ Sends a text message to discord every morning consisting of the headline and lin
 
 ## Work in progress
 
-* Version 0.0.2
+* Version 0.5
 
 ### TODOs
 
