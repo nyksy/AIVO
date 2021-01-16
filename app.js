@@ -23,7 +23,7 @@ cron.schedule('0 9 * * *', () => {
     var day = dateObj.getUTCDate();
     var year = dateObj.getUTCFullYear();
 
-    newdate = day + "/" + month + "/"  + year;
+    newdate = day + "/" + month + "/" + year;
     //If found
     if (channel) {
       const articles = scraper.articles //get articles from scraper.js
@@ -57,7 +57,7 @@ cron.schedule('0 9 * * *', () => {
 /*
 client.on('message', msg => {
   if (msg.content === 'ping') {
-
+    client.channels.cache.forEach(c => console.log(c))
     //get articles from scraper.js
     var articles = scraper.articles
     var date = new Date()
@@ -81,5 +81,8 @@ client.on('message', msg => {
     )
   }
 })
+
+client.login(config.TOKEN)
 */
+
 module.exports = app
