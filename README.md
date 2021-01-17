@@ -1,7 +1,9 @@
 # aivo/aevot discord bot
 
 Scrapes articles currently from the site [Ampparit](https://www.ampparit.com).  
-Sends a text message to discord every morning consisting of the headline and link of the 5 most recent articles.
+Sends a text message to discord every morning consisting of the headline and link of the 5 most recent articles.  
+
+UEF tribute: [HS/fingerpori](https://hs.mediadelivery.fi/img/1920/efd25ff2005748b29a1fbb1cdbfc7a13.jpg)
 
 ## Built With
 
