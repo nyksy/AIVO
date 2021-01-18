@@ -15,7 +15,8 @@ cron.schedule('0 9 * * *', () => {
     console.log(`Logged in as ${client.user.tag}`)
 
     //Sending the msg to a certain channel based on id
-    const channel = client.channels.cache.find(ch => ch.id === config.CH)
+    const ch = channel.id(config.CH)
+    //const channel = client.channels.cache.find(ch => ch.id === config.CH)
 
     //Constructing a date
     var dateObj = new Date();
@@ -25,9 +26,9 @@ cron.schedule('0 9 * * *', () => {
 
     newdate = day + "/" + month + "/" + year;
     //If found
-    if (channel) {
+    if (ch) {
       const articles = scraper.articles //get articles from scraper.js
-      channel.send(
+      ch.send(
         `**Aamujysäys ${newdate} by aivo**
 
 1. ${articles[0].title} <${articles[0].link}>
