@@ -15,8 +15,8 @@ cron.schedule('0 9 * * *', () => {
     console.log(`Logged in as ${client.user.tag}`)
 
     //Sending the msg to a certain channel based on id
-    const ch = channel.id(config.CH)
-    //const channel = client.channels.cache.find(ch => ch.id === config.CH)
+    //const ch = channel.id(config.CH)
+    const ch = client.channels.cache.get(config.CH)
 
     //Constructing a date
     var dateObj = new Date();
