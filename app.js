@@ -14,22 +14,19 @@ cron.schedule('0 9 * * *', () => {
   client.login(config.TOKEN).then(() => {
     console.log(`Logged in as ${client.user.tag}`)
 
-    //Sending the msg to a certain channel based on id
-    //const ch = channel.id(config.CH)
-    const ch = client.channels.cache.get(config.CH)
-
     //Constructing a date
-    var dateObj = new Date();
-    var month = dateObj.getUTCMonth() + 1;
-    var day = dateObj.getUTCDate();
-    var year = dateObj.getUTCFullYear();
+    var dateObj = new Date()
+    var month = dateObj.getUTCMonth() + 1
+    var day = dateObj.getUTCDate()
+    var year = dateObj.getUTCFullYear()
 
-    newdate = day + "/" + month + "/" + year;
-    //If found
-    if (ch) {
-      const articles = scraper.articles //get articles from scraper.js
-      ch.send(
-        `**Aamujysäys ${newdate} by aivo**
+    newdate = day + "/" + month + "/" + year //date
+
+    const articles = scraper.articles //get articles from scraper.js
+
+    client.channels.fetch(config.CH, true, true)
+      .then(ch => ch.send(
+          `**Aamujysäys ${newdate} by aivo**
 
 1. ${articles[0].title} <${articles[0].link}>
 
@@ -44,11 +41,10 @@ cron.schedule('0 9 * * *', () => {
 >uutista :D
 
 *Kiitos näkemiin*`
-      )
-      console.log(`MSG: sent at ${Date()}`)
-    } else {
-      console.log('CH: not found')
-    }
+        )
+      ).catch((error) => {
+        console.log(error)
+      })
   })
 }, {
   scheduled: true,
