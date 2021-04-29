@@ -4,6 +4,7 @@ const request = require('request')
 //Sites to be scraped
 const newsUrl = 'https://www.ampparit.com/uusimmat'
 const stockUrl = 'https://www.kauppalehti.fi/'
+const keslaUrl = 'https://www.nordnet.fi/markkinakatsaus/osakekurssit/16100812-kesla-a'
 
 function getArticles() {
 
@@ -41,14 +42,24 @@ function getStonks() {
     request(stockUrl, (error, res, html) => {
         if (!error && res.statusCode == 200) {
             const $ = cheerio.load(html)
-            
+
             //getting stock-ticker based on classNam
             $('.sumw9r-2').each((i, el) => {
 
                 const stonk = $(el).text().trim()
-                
                 stonks.push(stonk)
             })
+        }
+    })
+
+    //Kesla stonk
+    request(keslaUrl, (error, res, html) => {
+        if (!error && res.statusCode == 200) {
+            const $ = cheerio.load(html)
+
+            //getting stock-ticker based on className
+            const stonk = $('.OjNHA').first()
+            stonks.push(stonk.text().trim())
         }
     })
     return stonks

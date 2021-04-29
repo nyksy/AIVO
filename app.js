@@ -9,39 +9,56 @@ const app = express()
 //Discord client
 const client = new Discord.Client()
 
+
+//creates embedded message for bot to send
+//returns MessageEmbed-object
+function createMessage() {
+
+  const articles = scraper.articles
+  const stonks = scraper.stonks
+  var currentDate = new Date()
+
+  //embed-object
+  const timedMessage = new Discord.MessageEmbed()
+    //highlight-color
+    .setColor('#f78c00')
+    .setTitle('Aamujysäys v2.0')
+    .attachFiles(['./imurisaatana.png'])
+    .setURL('https://hs.mediadelivery.fi/img/1920/efd25ff2005748b29a1fbb1cdbfc7a13.jpg')
+    .setAuthor('ae vot', 'attachment://imurisaatana.png', 'https://hs.mediadelivery.fi/img/1920/efd25ff2005748b29a1fbb1cdbfc7a13.jpg')
+    .setDescription('your morning spam, daily')
+    .setThumbnail('attachment://imurisaatana.png')
+    .setTimestamp()
+    .setFooter('> uutista 8D')
+    //whitespace before articles
+    .addField('\u200B', '\u200B')
+
+
+  //adding 5 articles
+  for (i = 0; i < 5; i++) {
+    timedMessage
+      .addField(articles[i].title, articles[i].link)
+  }
+
+  //adding stock-ticker
+  //whitespace
+  timedMessage
+    .addField('\u200B', '\u200B')
+    .addField(`OMXH stonk at ${currentDate.toLocaleTimeString()}`, stonks[1])
+    .addField('Kesla Oyj A', stonks[0])
+
+  return timedMessage;
+}
+
 //Login & timed message
 cron.schedule('0 9 * * *', () => {
   client.login(config.TOKEN).then(() => {
+    //logging
     console.log(`Logged in as ${client.user.tag}`)
 
-    //Constructing a date
-    var dateObj = new Date()
-    var month = dateObj.getUTCMonth() + 1
-    var day = dateObj.getUTCDate()
-    var year = dateObj.getUTCFullYear()
-
-    newdate = day + "/" + month + "/" + year //date
-
-    const articles = scrape.articles //get articles from scraper.js
-
+    //fetching a channel and sending embedded message
     client.channels.fetch(config.CH, true, true)
-      .then(ch => ch.send(
-          `**Aamujysäys ${newdate} by aivo**
-
-1. ${articles[0].title} <${articles[0].link}>
-
-2. ${articles[1].title} <${articles[1].link}>
-
-3. ${articles[2].title} <${articles[2].link}>
-
-4. ${articles[3].title} <${articles[3].link}>
-
-5. ${articles[4].title} <${articles[4].link}>
-
->uutista :D
-
-*Kiitos näkemiin*`
-        )
+      .then(ch => ch.send(createMessage())
       ).catch((error) => {
         console.log(error)
       })
@@ -53,28 +70,8 @@ cron.schedule('0 9 * * *', () => {
 
 
 client.on('message', msg => {
-  if (msg.content === 'ping') {
-    //get articles from scraper.js
-    var articles = scraper.articles
-    var date = new Date()
-    console.log(articles[0].title)
-    msg.channel.send(
-      `**Aamujysäys ${Date()} by aivo**
-
-1. ${articles[0].title} <${articles[0].link}>
-
-2. ${articles[1].title} <${articles[1].link}>
-
-3. ${articles[2].title} <${articles[2].link}>
-
-4. ${articles[3].title} <${articles[3].link}>
-
-5. ${articles[4].title} <${articles[4].link}>
-
->uutista :D
-
-*Kiitos näkemiin*`
-    )
+  if (msg.content === 'pepsi') {
+    msg.channel.send(createMessage())
   }
 })
 
