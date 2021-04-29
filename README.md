@@ -1,6 +1,6 @@
 # aivo/aevot discord bot
 
-Scrapes articles currently from the site [Ampparit](https://www.ampparit.com).  
+Scrapes articles currently from the site [Ampparit](https://www.ampparit.com), stonks from [Kauppalehti](https://www.kauppalehti.fi/).  
 Sends a text message to discord every morning consisting of the headline and link of the 5 most recent articles.  
 Deployed to Heroku.  
 
