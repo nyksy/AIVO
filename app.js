@@ -16,6 +16,8 @@ function createMessage() {
 
   const articles = scraper.articles
   const stonks = scraper.stonks
+  const corona = scraper.vaccinePercentage
+
   var currentDate = new Date()
 
   //embed-object
@@ -26,7 +28,7 @@ function createMessage() {
     .attachFiles(['./imurisaatana.png'])
     .setURL('https://hs.mediadelivery.fi/img/1920/efd25ff2005748b29a1fbb1cdbfc7a13.jpg')
     .setAuthor('ae vot', 'attachment://imurisaatana.png', 'https://hs.mediadelivery.fi/img/1920/efd25ff2005748b29a1fbb1cdbfc7a13.jpg')
-    .setDescription('your morning spam, daily')
+    .setDescription('your daily morning spam')
     .setThumbnail('attachment://imurisaatana.png')
     .setTimestamp()
     .setFooter('> uutista 8D')
@@ -40,12 +42,13 @@ function createMessage() {
       .addField(articles[i].title, articles[i].link)
   }
 
-  //adding stock-ticker
+  //adding stock-ticker & covid-specs
   //whitespace
   timedMessage
     .addField('\u200B', '\u200B')
     .addField(`OMXH stonk at ${currentDate.toLocaleTimeString()}`, stonks[1])
     .addField('Kesla Oyj A', stonks[0])
+    .addField('Aikuisista rokotettu', corona[0])
 
   return timedMessage;
 }

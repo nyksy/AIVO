@@ -5,6 +5,8 @@ const request = require('request')
 const newsUrl = 'https://www.ampparit.com/uusimmat'
 const stockUrl = 'https://www.kauppalehti.fi/'
 const keslaUrl = 'https://www.nordnet.fi/markkinakatsaus/osakekurssit/16100812-kesla-a'
+const coronaUrl = 'https://www.thl.fi/episeuranta/rokotukset/koronarokotusten_edistyminen.html'
+
 
 function getArticles() {
 
@@ -65,5 +67,32 @@ function getStonks() {
     return stonks
 }
 
+
+function getCorona() {
+
+    
+    const vaccinePercentage = [];
+
+    //Get title and header from the element
+    request(coronaUrl, (error, res, html) => {
+        if (!error && res.statusCode == 200) {
+            const $ = cheerio.load(html)
+
+            //getting the headlines based on the className
+            var percentage = $('div.container > ul > li:contains(Ajantasainen rokotuskattavuus)').first()
+
+            //parsing the string, removing whitespace
+            var edit = percentage.text().replace(/ /g, '')
+
+            //extracting the percentage with regex
+            const regex = "\\d+(?:,\\d+)?%"
+            var matches = edit.match(regex);
+
+            vaccinePercentage.push(matches[0])
+        }
+    })
+    return vaccinePercentage
+}
+
 //Exports
-module.exports = { articles: getArticles(), stonks: getStonks() }
+module.exports = { articles: getArticles(), stonks: getStonks(), vaccinePercentage: getCorona() }
