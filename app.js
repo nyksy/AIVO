@@ -71,7 +71,7 @@ cron.schedule('0 9 * * *', () => {
   timezone: 'Europe/Helsinki'
 })
 
-
+/*
 client.on('message', msg => {
   if (msg.content === 'pepsi') {
     msg.channel.send(createMessage())
@@ -79,6 +79,6 @@ client.on('message', msg => {
 })
 
 client.login(config.TOKEN)
-
+*/
 
 module.exports = app
