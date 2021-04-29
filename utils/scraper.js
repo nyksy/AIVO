@@ -13,7 +13,7 @@ function getArticles() {
     request(url, (error, res, html) => {
         if (!error && res.statusCode == 200) {
             const $ = cheerio.load(html)
-            
+
             //getting the headlines based on the className
             $('.news-item-headline').each((i, el) => {
                 const title = $(el).text().trim()
@@ -31,4 +31,4 @@ function getArticles() {
     return articles
 }
 //Exports
-module.exports = {articles: getArticles() }
+module.exports = { articles: getArticles() }

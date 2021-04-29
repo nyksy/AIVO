@@ -22,7 +22,7 @@ cron.schedule('0 9 * * *', () => {
 
     newdate = day + "/" + month + "/" + year //date
 
-    const articles = scraper.articles //get articles from scraper.js
+    const articles = scrape.articles //get articles from scraper.js
 
     client.channels.fetch(config.CH, true, true)
       .then(ch => ch.send(
@@ -51,10 +51,9 @@ cron.schedule('0 9 * * *', () => {
   timezone: 'Europe/Helsinki'
 })
 
-/*
+
 client.on('message', msg => {
   if (msg.content === 'ping') {
-    client.channels.cache.forEach(c => console.log(c))
     //get articles from scraper.js
     var articles = scraper.articles
     var date = new Date()
@@ -80,6 +79,6 @@ client.on('message', msg => {
 })
 
 client.login(config.TOKEN)
-*/
+
 
 module.exports = app
