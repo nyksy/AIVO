@@ -33,7 +33,7 @@ function createMessage() {
     .setTimestamp()
     .setFooter('> uutista 8D')
     //whitespace before articles
-    .addField('\u200B', '\u200B')
+    .addField('\u200B', 'Uutista')
 
 
   //adding 5 articles
@@ -42,12 +42,18 @@ function createMessage() {
       .addField(articles[i].title, articles[i].link)
   }
 
-  //adding stock-ticker & covid-specs
+  //adding stock-ticker
   //whitespace
   timedMessage
-    .addField('\u200B', '\u200B')
-    .addField(`OMXH stonk at ${currentDate.toLocaleTimeString()}`, stonks[1])
-    .addField('Kesla Oyj A', stonks[0])
+    .addField('\u200B', 'Stonks')
+  
+  stonks.forEach((stonk) => {
+    timedMessage.addField(stonk.title, stonk.data, true)
+  })
+
+  //covid-specs
+  timedMessage
+    .addField('\u200B', 'Corona 0,33l')
     .addField('Aikuisista rokotettu', corona[0])
 
   return timedMessage;

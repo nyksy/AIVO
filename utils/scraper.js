@@ -6,7 +6,8 @@ const newsUrl = 'https://www.ampparit.com/uusimmat'
 const stockUrl = 'https://www.kauppalehti.fi/'
 const keslaUrl = 'https://www.nordnet.fi/markkinakatsaus/osakekurssit/16100812-kesla-a'
 const coronaUrl = 'https://www.thl.fi/episeuranta/rokotukset/koronarokotusten_edistyminen.html'
-
+const spxUrl = 'https://www.marketwatch.com/investing/index/spx'
+const djiaUrl = 'https://www.marketwatch.com/investing/index/djia'
 
 function getArticles() {
 
@@ -49,7 +50,12 @@ function getStonks() {
             $('.sumw9r-2').each((i, el) => {
 
                 const stonk = $(el).text().trim()
-                stonks.push(stonk)
+
+                const item = {
+                    title: 'OMXH',
+                    data: stonk,
+                }
+                stonks.push(item)
             })
         }
     })
@@ -60,17 +66,58 @@ function getStonks() {
             const $ = cheerio.load(html)
 
             //getting stock-ticker based on className
-            const stonk = $('.OjNHA').first()
-            stonks.push(stonk.text().trim())
+            const stonk = $('.kCRTWh').first()
+
+            const item = {
+                title: 'Kesla Oyj A',
+                data: stonk.text().trim(),
+            }
+
+            stonks.push(item)
         }
     })
+
+    //SPX stonk
+    request(spxUrl, (error, res, html) => {
+        if (!error && res.statusCode == 200) {
+            const $ = cheerio.load(html)
+
+            //getting stock-ticker based on className
+            const stonk = $('.change--percent--q').first()
+
+            const item = {
+                title: 'S&P 500',
+                data: stonk.text().trim(),
+            }
+
+            stonks.push(item)
+        }
+    })
+
+    //DJIA stonk
+    request(djiaUrl, (error, res, html) => {
+        if (!error && res.statusCode == 200) {
+            const $ = cheerio.load(html)
+
+            //getting stock-ticker based on className
+            const stonk = $('.change--percent--q').first()
+
+            const item = {
+                title: 'DJIA',
+                data: stonk.text().trim(),
+            }
+
+            stonks.push(item)
+        }
+    })
+
     return stonks
 }
 
 
 function getCorona() {
 
-    
+
     const vaccinePercentage = [];
 
     //Get title and header from the element
