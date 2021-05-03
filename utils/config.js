@@ -6,8 +6,8 @@ let GUILD = process.env.GUILD
 let CH = process.env.CH
 
 module.exports = {
-  PORT,
-  TOKEN,
-  GUILD,
-  CH,
+	PORT,
+	TOKEN,
+	GUILD,
+	CH,
 }

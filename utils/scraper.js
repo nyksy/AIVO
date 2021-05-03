@@ -4,142 +4,143 @@ const request = require('request')
 //Sites to be scraped
 const newsUrl = 'https://www.ampparit.com/uusimmat'
 const stockUrl = 'https://www.kauppalehti.fi/'
-const keslaUrl = 'https://www.nordnet.fi/markkinakatsaus/osakekurssit/16100812-kesla-a'
-const coronaUrl = 'https://www.thl.fi/episeuranta/rokotukset/koronarokotusten_edistyminen.html'
+const keslaUrl = 'https://markets.businessinsider.com/stocks/kesla_oy_a-stock'
+const coronaUrl =
+	'https://www.thl.fi/episeuranta/rokotukset/koronarokotusten_edistyminen.html'
 const spxUrl = 'https://www.marketwatch.com/investing/index/spx'
 const djiaUrl = 'https://www.marketwatch.com/investing/index/djia'
 
 function getArticles() {
+	//Array for the items
+	const articles = []
+    
+	//Get title and header from the element 'news-item-headline'
+	request(newsUrl, (error, res, html) => {
+		if (!error && res.statusCode == 200) {
+			const $ = cheerio.load(html)
 
-    //Array for the items
-    const articles = []
+			//getting the headlines based on the className
+			$('.news-item-headline').each((i, el) => {
+				const title = $(el).text().trim()
+				const link = $(el).attr('href')
 
-    //Get title and header from the element 'news-item-headline'
-    request(newsUrl, (error, res, html) => {
-        if (!error && res.statusCode == 200) {
-            const $ = cheerio.load(html)
-
-            //getting the headlines based on the className
-            $('.news-item-headline').each((i, el) => {
-                const title = $(el).text().trim()
-                const link = $(el).attr('href')
-
-                //Model
-                const item = {
-                    title: title,
-                    link: link,
-                }
-                articles.push(item)
-            })
-        }
-    })
-    return articles
+				//Model
+				const item = {
+					title: title,
+					link: link,
+				}
+				articles.push(item)
+			})
+		}
+	})
+	return articles
 }
 
 function getStonks() {
+	//array for the objects
+	const stonks = []
 
-    //array for the objects
-    const stonks = []
+	//Get stonks
+	request(stockUrl, (error, res, html) => {
+		if (!error && res.statusCode == 200) {
+			const $ = cheerio.load(html)
 
-    //Get stonks
-    request(stockUrl, (error, res, html) => {
-        if (!error && res.statusCode == 200) {
-            const $ = cheerio.load(html)
+			//getting stock-ticker based on classNam
+			$('.sumw9r-2').each((i, el) => {
+				const stonk = $(el).text().trim()
 
-            //getting stock-ticker based on classNam
-            $('.sumw9r-2').each((i, el) => {
+				const item = {
+					title: 'OMXH',
+					data: stonk,
+				}
+				stonks.push(item)
+			})
+		}
+	})
 
-                const stonk = $(el).text().trim()
+	//Kesla stonk
+	request(keslaUrl, (error, res, html) => {
+		if (!error && res.statusCode == 200) {
+			const $ = cheerio.load(html)
 
-                const item = {
-                    title: 'OMXH',
-                    data: stonk,
-                }
-                stonks.push(item)
-            })
-        }
-    })
+			//getting stock-ticker based on className
+			const stonk = $('.price-section__relative-value').first()
 
-    //Kesla stonk
-    request(keslaUrl, (error, res, html) => {
-        if (!error && res.statusCode == 200) {
-            const $ = cheerio.load(html)
+			const item = {
+				title: 'Kesla Oyj A',
+				data: stonk.text().trim(),
+			}
 
-            //getting stock-ticker based on className
-            const stonk = $('.kCRTWh').first()
+			stonks.push(item)
+		}
+	})
 
-            const item = {
-                title: 'Kesla Oyj A',
-                data: stonk.text().trim(),
-            }
+	//SPX stonk
+	request(spxUrl, (error, res, html) => {
+		if (!error && res.statusCode == 200) {
+			const $ = cheerio.load(html)
 
-            stonks.push(item)
-        }
-    })
+			//getting stock-ticker based on className
+			const stonk = $('.change--percent--q').first()
 
-    //SPX stonk
-    request(spxUrl, (error, res, html) => {
-        if (!error && res.statusCode == 200) {
-            const $ = cheerio.load(html)
+			const item = {
+				title: 'S&P 500',
+				data: stonk.text().trim(),
+			}
 
-            //getting stock-ticker based on className
-            const stonk = $('.change--percent--q').first()
+			stonks.push(item)
+		}
+	})
 
-            const item = {
-                title: 'S&P 500',
-                data: stonk.text().trim(),
-            }
+	//DJIA stonk
+	request(djiaUrl, (error, res, html) => {
+		if (!error && res.statusCode == 200) {
+			const $ = cheerio.load(html)
 
-            stonks.push(item)
-        }
-    })
+			//getting stock-ticker based on className
+			const stonk = $('.change--percent--q').first()
 
-    //DJIA stonk
-    request(djiaUrl, (error, res, html) => {
-        if (!error && res.statusCode == 200) {
-            const $ = cheerio.load(html)
+			const item = {
+				title: 'DJIA',
+				data: stonk.text().trim(),
+			}
 
-            //getting stock-ticker based on className
-            const stonk = $('.change--percent--q').first()
+			stonks.push(item)
+		}
+	})
 
-            const item = {
-                title: 'DJIA',
-                data: stonk.text().trim(),
-            }
-
-            stonks.push(item)
-        }
-    })
-
-    return stonks
+	return stonks
 }
 
-
 function getCorona() {
+	const vaccinePercentage = []
 
+	//Get title and header from the element
+	request(coronaUrl, (error, res, html) => {
+		if (!error && res.statusCode == 200) {
+			const $ = cheerio.load(html)
 
-    const vaccinePercentage = [];
+			//getting the headlines based on the className
+			var percentage = $(
+				'div.container > ul > li:contains(Ajantasainen rokotuskattavuus)'
+			).first()
 
-    //Get title and header from the element
-    request(coronaUrl, (error, res, html) => {
-        if (!error && res.statusCode == 200) {
-            const $ = cheerio.load(html)
+			//parsing the string, removing whitespace
+			var edit = percentage.text().replace(/ /g, '')
 
-            //getting the headlines based on the className
-            var percentage = $('div.container > ul > li:contains(Ajantasainen rokotuskattavuus)').first()
+			//extracting the percentage with regex
+			const regex = '\\d+(?:,\\d+)?%'
+			var matches = edit.match(regex)
 
-            //parsing the string, removing whitespace
-            var edit = percentage.text().replace(/ /g, '')
-
-            //extracting the percentage with regex
-            const regex = "\\d+(?:,\\d+)?%"
-            var matches = edit.match(regex);
-
-            vaccinePercentage.push(matches[0])
-        }
-    })
-    return vaccinePercentage
+			vaccinePercentage.push(matches[0])
+		}
+	})
+	return vaccinePercentage
 }
 
 //Exports
-module.exports = { articles: getArticles(), stonks: getStonks(), vaccinePercentage: getCorona() }
+module.exports = {
+	articles: getArticles(),
+	stonks: getStonks(),
+	vaccinePercentage: getCorona(),
+}

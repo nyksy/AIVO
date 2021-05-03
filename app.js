@@ -1,12 +1,10 @@
-const express = require('express')
-
-const Discord = require('discord.js')
-
 const config = require('./utils/config')
+const express = require('express')
+const Discord = require('discord.js')
 const scraper = require('./utils/scraper')
 const cron = require('node-cron')
-const app = express()
 
+const app = express()
 
 //Discord client
 const client = new Discord.Client()
@@ -16,10 +14,9 @@ const client = new Discord.Client()
 //returns MessageEmbed-object
 function createMessage() {
 
-	const articles = scraper.articles()
-	const stonks = scraper.stonks()
-	const corona = scraper.vaccinePercentage()
-
+	const articles = scraper.articles
+	const stonks = scraper.stonks
+	const corona = scraper.vaccinePercentage
 
 	//embed-object
 	const timedMessage = new Discord.MessageEmbed()
@@ -47,10 +44,11 @@ function createMessage() {
 	//whitespace
 	timedMessage
 		.addField('\u200B', 'Stonks')
-
+	
 	stonks.forEach((stonk) => {
 		timedMessage.addField(stonk.title, stonk.data, true)
 	})
+  
 
 	//covid-specs
 	timedMessage
@@ -84,7 +82,6 @@ client.on('message', msg => {
 		msg.channel.send(createMessage())
 	}
 })
-
 client.login(config.TOKEN)
 
 
