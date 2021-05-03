@@ -3,6 +3,7 @@ const express = require('express')
 const Discord = require('discord.js')
 const scraper = require('./utils/scraper')
 const cron = require('node-cron')
+//const xkcd = require('xkcd-api')
 
 const app = express()
 
@@ -76,13 +77,22 @@ cron.schedule('0 9 * * *', () => {
 	timezone: 'Europe/Helsinki'
 })
 
-
+/*
 client.on('message', msg => {
 	if (msg.content === 'pepsi') {
-		msg.channel.send(createMessage())
+    
+		xkcd.random((err, res) => {
+			if (err) {
+				console.log(err)
+			} else {
+				console.log(res.img)
+				msg.channel.send(res.img)
+			}
+		})
+    
 	}
 })
 client.login(config.TOKEN)
-
+*/
 
 module.exports = app
